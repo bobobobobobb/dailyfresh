@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="/static/vue.min.js"></script>
+    <script src="/static/axios.min.js"></script>
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <ul>
+        {% for book in books %}
+        <li @click="get_hero({{ book.id }});">{{ book.btitle }}</li>
+        {% endfor %}
+    </ul>
+
+    <hr>
+    <ul>
+{#{% for key,value in num_dict.items%}#}
+{#<h1>{{ key}}:{{value}}</h1>#}
+{#        <li v-for="hero in hero_list">{% for key,value in hero %}</li>#}
+{#        {% for hero in app.hero_list %}#}
+{#            {% for k,v in hero %}#}
+{#                <li>v</li>#}
+{#                {% endfor %}#}
+{#            <li>{{ hero }}</li>#}
+{#        {% endfor %}#}
+        <div v-for="data in hero_list">
+{#        <li v-for="detail,value in data">#}
+                [[data.id]]--[[data.hname]]
+{#        </li>#}
+</div>
+    </ul>
+ </div>
+</body>
+</html>
+<script>
+    var app = new Vue({
+        el:'#app',
+        delimiters:['[[', ']]'],
+        data:{
+            hero_list:[]
+        },
+        methods:{
+            get_hero:function (book_id) {
+                axios.get('/'+book_id+'/').then(function (response) {
+                    heros = response.data.heros
+                    app.hero_list = heros
+
+                })
+            }
+        }
+    })
+</script>
